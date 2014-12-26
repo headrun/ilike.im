@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block head_styles %}
+{{ block.super }}
+    <link rel="stylesheet" href="/static/css/homepage.css" />
+    <link rel="stylesheet" href="/static/css/base.css" />
+{% endblock %}
+
+{% block head_scripts %}
+
+{% endblock %}
+
+{% block body %}
+    {{ block.super }}
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=187014801422180";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+    <div id="bg">
+        <img src="/static/img/homepage_bg.jpg" alt="">
+    </div>
+    <div class="container-fluid">
+    {% block body_container %}
+        {{ block.super }}
+        <!-- <img src="/static/img/badge.png" style="position: absolute; top: 0px; left: 23px"/> -->
+        <div class="home hero-unit">
+            <div style="display: table; text-align: center; color: white; text-shadow: 1px 1px 2px #1d1d1d; width: 100%;">
+                <h2 style="font-size: 80px; line-height: 50px;font-family: Gorditas; font-weight: 100; margin-top: 30px;text-align:center;">iLike</h2>
+                <p style="font-size: 25px; line-height: 38px; margin-top: 50px; margin-bottom:0px; font-family: Droid Sans;text-align:center;">
+                    Anonymously find friends who<br/>
+                    have a crush on you
+                </p>
+                <p style="font-size: 13px;text-align:center;">Your friends will never know you have a crush</p>
+                <a target="_parent" href="{% url socialauth_begin 'facebook' %}" style="margin-top: 10px; margin-bottom: 10px; cursor: pointer; display: inline-block">
+                    <img src="/static/img/facebook.png" />
+                </a>
+                <p style="font-size: 14px; font-weight: bold; text-align: center">(Completely private &amp; discreet until both friends have crush on each other!)</p>
+                <div class="fb-like" data-href="http://ilike.im/" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="segoe ui"></div>
+                <p style="font-size: 13px;text-align:center;">updates and more:</p>
+                <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FiLikeimPage&amp;send=false&amp;layout=button_count&amp;width=85&amp;show_faces=false&amp;font=segoe+ui&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=187014801422180" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:21px;" allowTransparency="true"></iframe>
+                <a href="https://twitter.com/ilike_im" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @twitterapi</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                <p></p>
+            </div>
+
+        </div>
+    {% endblock %}
+    </div>
+    <div id="footer" class="navbar navbar-fixed-bottom">
+      <div class="navbar-inner">
+        <div class="container-fluid" style="padding: 0px 10px">
+          <div class="row-fluid">
+              <ul class="nav span3">
+                  <li class="span4"><a href="/terms/">Terms</a></li>
+                  <li class="span4"><a href="/privacy/">Privacy</a></li>
+                  <li class="span4"><a href="/press/">Press</a></li>
+              </ul>
+              <div style="clear:both"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

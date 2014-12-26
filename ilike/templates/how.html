@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block head_styles %}
+{{ block.super }}
+    <link rel="stylesheet" href="/static/css/base.css" />
+{% endblock %}
+
+
+    {% block body_container %}
+       <div style='width: 900px;margin: 20px auto;'>
+            <h2>How this Works.</h2>
+            <h3>Step 1</h3>
+            <p>
+            Have a person in mind whom you've had a crush on for a while now?<br/>
+            Start by finding them on our page.
+            </p>
+            <h3>Step 2</h3>
+            <p>
+            Once you find that special someone, click on the Crush button under their picture.<br/>
+            Thats it. As simple as that ! Don't worry your secret is safe. Shhhhh...
+            </p>
+            <h3>Step 3</h3>
+            <p>
+            This is where it gets exciting. If your crush has similar feelings towards you and clicks on the Crush button for you,<br/>
+            we notify both of you that you like each other.
+            </p>
+            <h3>Step 4</h3>
+            <p>
+            Now that the ice is broken, our role of playing cupid is done. Have Fun :)<br/>
+            </p>
+
+
+        </div>
+    {% endblock %}
+    {% block footer %}
+    <div id="footer" class="navbar navbar-inverse navbar-fixed-bottom">
+      <div class="navbar-inner">
+        <div class="container-fluid" style="padding: 0px 10px">
+          <div class="row-fluid">
+              <ul class="nav span3">
+                  <li class="span4"><a href="/terms/">Terms</a></li>
+                  <li class="span4"><a href="/privacy/">Privacy</a></li>
+                  <li class="span4"><a href="/press/">Press</a></li>
+              </ul>
+              <div style="clear:both"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

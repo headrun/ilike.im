@@ -1,0 +1,60 @@
+#home-footer {
+    margin-top: 100px;
+}
+#home-footer > hr {
+    margin: 0px;
+    border-top: 1px solid #5C7E91;
+    border-bottom: 1px solid #89BBD9;
+}
+#home-footer > div.row-fluid > div.span12 {
+    margin-top: 12px;
+    margin-left: 140px;
+}
+#home-footer > div.row-fluid > div.span12 > div.span2 {
+    width: 140px;
+    text-align: center;
+    margin: 0px;
+}
+#home-footer > div.row-fluid > div.span12 > div.span2 > a {
+    color: white;
+    font-size: 12px;
+}
+body{
+    background-color: #749fb8;
+}
+div.container-fluid {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.home.hero-unit{
+    display: table;
+    text-align: center;
+    width: 700px;
+    position: absolute;
+    top: 50%;
+    padding: 0px;
+    margin-bottom: 0px;
+    left: 50%;
+    margin-top: -252px;
+    margin-left: -350px;
+    background: transparent url(/static/img/bg_b6.png);
+    height: 504px; 
+}
+#bg {
+    position:fixed;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+}
+#bg img {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    min-width:50%;
+    min-height:50%;
+}
+

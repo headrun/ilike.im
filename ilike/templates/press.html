@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block head_styles %}
+{{ block.super }}
+    <link rel="stylesheet" href="/static/css/base.css" />
+{% endblock %}
+
+
+    {% block body_container %}
+       <div style='width: 900px;margin: 20px auto;padding-bottom:40px;'>
+        <h2> Inquiries ? </h2>
+        <p> For press related queries please send a mail to <a href="mailto:iLike@headrun.com" >iLike@headrun.com</a></p>
+        </div>
+    {% endblock %}
+    {% block footer %}
+    <div id="footer" class="navbar navbar-inverse navbar-fixed-bottom">
+      <div class="navbar-inner">
+        <div class="container-fluid" style="padding: 0px 10px">
+          <div class="row-fluid">
+              <ul class="nav span3">
+                  <li class="span4"><a href="/terms/">Terms</a></li>
+                  <li class="span4"><a href="/privacy/">Privacy</a></li>
+                  <li class="span4"><a href="/press/">Press</a></li>
+              </ul>
+              <div style="clear:both"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_styles %}
+{{ block.super }}
+{% endblock %}
+
+{% block extra_nav %}
+    <li><a href="/home?page=1&filter=m"><img id="male" class="sex" src="/static/img/male_{%if filter_param == "m"%}active{%else%}gray{%endif%}.png"/></a></li>
+    <li><a href="/home?page=1&filter=f"><img id="female" class="sex" src="/static/img/female_{%if filter_param == "f"%}active{%else%}gray{%endif%}.png"/></a></li>
+{% endblock %}
+
+{% block body_container%}
+<style>
+    .caption
+    {
+        display:none;
+        background:white;
+        opacity:.8;
+        position:absolute;
+    }
+    #container {
+        margin: 0px auto !important;
+        padding: 0px !important;
+    }
+    #content {
+        padding: 0px !important;
+    }
+    .sex {
+        width: 20px;
+    }
+</style>
+
+<nav id="page-nav">
+  <a href="/home?filter={{filter_param}}&page=1"></a>
+</nav>
+
+<section id="content">
+
+    <div id="masthead">
+        <h1>Express Yourself</h1>
+        <h2>Tell {%if filter_param == "m" %}him{%elif filter_param == "f"%}her{%else%}them{%endif%} how you feel</h2>
+
+        <div class="divider"></div>
+    </div>
+
+	<div id="container" class="transitions-enabled infinite-scroll clearfix"> <!--transitions-enabled infinite-scroll-->
+    {% for friendship in data %}
+        <div class="box photo col2" id="{{friendship.to_user.fbuid}}">
+            <img class="fbimage" src="{{ friendship.to_user.profile_pic_url }}" alt="{{friendship.to_user.name}}" />
+            <div class="friend-name">
+                <div style="display:table; width:100%; height:100%;">
+                    <span class="name" style="display:table-cell; vertical-align:middle;">
+                        {{friendship.to_user.name}}
+                    </span>
+                </div>
+            </div>
+            {% if friendship.count == 0 %}
+                <a class="change_status btn btn-love" style="width:150px;"><img src="/static/img/love_bubble.png" style="width: 25px; display: inline"> Crush</a>
+            {% elif not friendship.is_mutual %}
+                <a class="change_status btn disabled btn-love" style="width:150px;">Awaiting Crush</a>
+            {% else %}
+                <a class="change_status btn disabled btn-love hitched" style="width:150px;">Hitched</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+	</div> <!-- #container -->
+
+
+	<script>
+        (function(){
+            var BOX_SPAN = 202;
+
+            var adjust_layout = function(){
+                var container_width = $("#content").width();
+                var cols = Math.floor(container_width/BOX_SPAN);
+                var occupied_width = BOX_SPAN * cols;
+
+                var $container = $("#container");
+
+                $container.css({"width": occupied_width + "px"});
+                if($container.hasClass("masonry")){
+                    $container.masonry("reload");
+                }
+            };
+
+            adjust_layout();
+
+            $(window).resize(adjust_layout);
+            getURLParameter = function(name) {
+                return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]);
+            }
+
+            on_click_action = function()
+            {
+                var objid = $(this).parents('.box').attr('id');
+                var current = $(this);
+                $(current).html("Updating...");
+                $(current).addClass("disabled");
+                $.post('/click/',{'uid': objid},
+                    function()
+                    {
+                        $(current).empty();
+                        $(current).html("Awaiting Crush");
+                    }
+                );
+            };
+
+            hover_init = function()
+            {
+                $('.box').mouseenter(function(){
+                    var image= $(this).find('.fbimage'),
+                        caption = $(this).find('.caption');
+
+                    caption.width(image.width());
+                    caption.height("28px");
+                    caption.fadeIn();
+                }).mouseleave(function(){
+                     var image= $(this).find('.fbimage'),
+                        caption = $(this).find('.caption');
+
+                    caption.width(image.width());
+                    caption.height("28px");
+                    caption.fadeOut();
+                });
+
+                var $container = $('#container');
+                $container.imagesLoaded( function(){
+                  $container.masonry({
+                        itemSelector : '.box'
+                    });
+                });
+
+
+            };
+
+            filter_sex = function()
+            {
+                /*
+                if (getURLParameter("filter")=="m")
+                {
+                    $('#container').prepend('<a href="/home?page=1&filter=m"><img id="male" class="sex" src="/static/img/male.png"/></a><br>'+
+                                            '');
+                }
+                else if (getURLParameter("filter")=="f")
+                {
+                    $('#container').prepend('<a href="/home?page=1&filter=m"><img id="male" class="sex" src="/static/img/male_grey.png"/></a><br>'+
+                                            '<a href="/home?page=1&filter=f"><img id="female" class="sex" src="/static/img/female.png"/></a>');
+                }
+                else {
+                    $('#container').prepend('<a href="/home?page=1&filter=m"><img id="male" class="sex" src="/static/img/male_grey.png"/></a><br>'+
+                                            '<a href="/home?page=1&filter=f"><img id="female" class="sex" src="/static/img/female_grey.png"/></a>');
+                }
+                */
+            }
+
+          $(function(){
+
+
+            hover_init();
+            filter_sex();
+            $('#container').on('click', ".change_status", on_click_action);
+            //infinite_update = function()
+            //{
+                        var $container = $('#container');
+                        $container.infinitescroll({
+                          navSelector  : '#page-nav',    // selector for the paged navigation
+                          nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+                          itemSelector : '.box',     // selector for all items you'll retrieve
+                          isFitWidth: true,
+                          loading: {
+                              finishedMsg: 'No more pages to load.',
+                              img: 'http://i.imgur.com/6RMhx.gif',
+                              msgText:""
+                            }
+                          },
+                          // trigger Masonry as a callback
+                          function( newElements ) {
+                            // hide new items while they are loading
+                            var $newElems = $( newElements ).css({ opacity: 0 });
+                            // ensure that images load before adding to masonry layout
+                            $newElems.imagesLoaded(function(){
+                              // show elems now they're ready
+                              $newElems.animate({ opacity: 1 });
+                              $container.masonry( 'appended', $newElems, true );
+                              hover_init();
+                            });
+                          }
+                        );
+            //}
+
+            /*$(window).scroll(function(){
+
+                  var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+                  var  scrolltrigger = 0.95;
+
+                  if  ((wintop/(docheight-winheight)) > scrolltrigger) {
+                     infinite_update();
+                  }
+            });*/
+
+
+          });
+      }());
+	</script>
+
+</section> <!-- #content -->
+{% endblock %}
